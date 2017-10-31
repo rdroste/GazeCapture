@@ -42,7 +42,7 @@ fileID = fopen(filename,'r');
 % code. If an error occurs for a different file, try regenerating the code
 % from the Import Tool.
 dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter, 'HeaderLines' ,startRow-1, 'ReturnOnError', false);
-
+nRows = size(dataArray,2);
 %% Close the text file.
 fclose(fileID);
 
@@ -54,7 +54,7 @@ for col=1:length(dataArray)-1
 end
 numericData = NaN(size(dataArray{1},1),size(dataArray,2));
 
-for col=[2,3,4,5,6,7,8,9,10,11,12,13,14]
+for col=2:nRows
     % Converts strings in the input cell array to numbers. Replaced non-numeric
     % strings with NaN.
     rawData = dataArray{col};
@@ -88,7 +88,7 @@ end
 
 
 %% Split data into numeric and cell columns.
-rawNumericColumns = raw(:, [2,3,4,5,6,7,8,9,10,11,12,13,14]);
+rawNumericColumns = raw(:, 2:nRows-1);
 rawCellColumns = raw(:, 1);
 
 
@@ -114,4 +114,4 @@ deviceScreenHeightPointsZoomed = cell2mat(rawNumericColumns(:, 13));
 
 
 %% Clear temporary variables
-clearvars filename delimiter startRow formatSpec fileID dataArray ans raw col numericData rawData row regexstr result numbers invalidThousandsSeparator thousandsRegExp me rawNumericColumns rawCellColumns R;
+clearvars filename delimiter startRow formatSpec fileID dataArray ans raw col numericData rawData row regexstr result numbers invalidThousandsSeparator thousandsRegExp me rawNumericColumns rawCellColumns R nRows;
