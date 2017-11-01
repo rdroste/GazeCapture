@@ -20,11 +20,6 @@ class faceDetection:
     def getRoi(self, img, xywh):
         return img[xywh[1]:xywh[1]+xywh[3], xywh[0]:xywh[0]+xywh[2]]
 
-    # TODO : Resizing eye bbs
-    # def resize_eyes(locations):
-    #     max_hw = max(lw, lh, rw, rh)
-    #     return 0
-
     def detect(self, img, DRAW=0, n_repeats=1):
 
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -34,19 +29,19 @@ class faceDetection:
         except:
             return None
 
-        eye_roi = [face.copy(), face.copy()]
-        eye_roi[0][2] = face[2]/2
-        eye_roi[1][2] = face[2]/2
-        eye_roi[1][0] = face[0] + face[2]/2
+        eye_rois = [face.copy(), face.copy()]
+        eye_rois[0][2] = face[2]/2
+        eye_rois[1][2] = face[2]/2
+        eye_rois[1][0] = face[0] + face[2]/2
 
         eyes = list()
         for i in range(2):
             try:
-                eye = self.haar_cascades[1+i].detectMultiScale(self.getRoi(gray, eye_roi[i]))[0,:]
+                eye = self.haar_cascades[1+i].detectMultiScale(self.getRoi(gray, eye_rois[i]))[0,:]
             except:
                 return None
             for j in range(2):
-                eye[j] += eye_roi[i][j]
+                eye[j] += eye_rois[i][j]
             eyes.append(eye)
         del [eye]
 
@@ -59,8 +54,6 @@ class faceDetection:
                     self.drawRect(draw_img, face_eyes[i])
 
         face_eyes[0][2:] = max(face_eyes[0][2:])
-
-        # resize_eyes(...)
         eyes_dim = np.max(np.concatenate((face_eyes[1][2:], face_eyes[2][2:])))
         for i in range(2):
             face_eyes[1+i][2:] = eyes_dim
@@ -89,7 +82,6 @@ class faceDetection:
                 cv2.imshow('image',thisImage)
                 cv2.waitKey(10)
 
-        facegrid = np.reshape(facegrid,(1,625,1,1))
         images.append(facegrid)
 
         return images

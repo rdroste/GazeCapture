@@ -15,13 +15,10 @@ class iTracker:
     def __init__(self):
         caffe.set_mode_gpu()
         caffe.set_device(0)
-
         self.net = caffe.Net(model, weights, caffe.TEST)
 
-        self.mean_image = list()
-        for i in range(3):
-            self.mean_image.append(self.loadMeanImage(mean_path + mean_image_files[i]))
-
+        self.mean_image = [self.loadMeanImage(mean_path + mean_image_files[i])
+                           for i in range(3)]
         self.n_repeats = 1
 
     def loadMeanImage(self, fname):
@@ -44,7 +41,8 @@ class iTracker:
             thisImage = np.repeat(thisImage,self.n_repeats,axis=3)
             thisImage = np.transpose(thisImage, (3,2,0,1))
             final_images.append(thisImage.copy())
-        final_images.append(images[3])
+
+        final_images.append(np.reshape(images[3],(1,625,1,1), order='F'))
         return final_images
 
     def infer(self, images):
