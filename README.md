@@ -1,3 +1,14 @@
+This is a fork of the [CSAILVision / __GazeCapture__](https://github.com/CSAILVision/GazeCapture).  
+I modified it to run real-time gaze-prediction with the iTracker CNN on my laptop.  
+The added files contain:
+* **liveGazeCapture.py**: The main function, running face detection, gaze prediction and visualization of the results in a loop. Call this file from the command line.
+* **iTracker.py**: Class to set up the iTracker Caffe model and to run inference.
+* **faceDetection.py**: Class to run face and eye detection with OpenCV as a necessary pre-processing step to the iTracker model.
+* **visualizeGaze.py**: Show the gaze point in an OpenCV window on the laptop screen.
+Dependencies: Caffe and OpenCV with python bindings.  
+  
+README of the original repository:
+
 # Eye Tracking for Everyone Code, Dataset and Models
 
 ## Introduction
