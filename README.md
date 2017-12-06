@@ -5,6 +5,7 @@ The added files contain:
 * **iTracker.py**: Class to set up the iTracker Caffe model and to run inference.
 * **faceDetection.py**: Class to run face and eye detection with OpenCV as a necessary pre-processing step to the iTracker model.
 * **visualizeGaze.py**: Show the gaze point in an OpenCV window on the laptop screen.  
+
 Dependencies: Caffe and OpenCV with python bindings.  
   
 README of the original repository:
